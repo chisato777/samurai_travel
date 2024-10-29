@@ -77,5 +77,22 @@ public class UserService {
     public boolean isEmailChanged(UserEditForm userEditForm) {
         User currentUser = userRepository.getReferenceById(userEditForm.getId());
         return !userEditForm.getEmail().equals(currentUser.getEmail());      
-    }  
+    }
+    
+    public User findUserById(int userId) {
+        return userRepository.findUserById(userId);
+    }
+    
+ // ユーザーのロールを取得する
+    public String getUserRoleName(String name) {
+    	User user = userRepository.findUsersByRoleName(name);
+    	if (user != null && user.getRole() != null) {
+    		return user.getRole().getName();
+    	}
+    	return "GUEST";
+    }
+    
+    public User findByName(String name) {
+    	return userRepository.findByName(name).orElse(null);
+    }
 }

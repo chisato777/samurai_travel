@@ -16,7 +16,7 @@ import com.example.samuraitravel.form.HouseRegisterForm;
 import com.example.samuraitravel.repository.HouseRepository;
 
 @Service
-public class HouseService {
+public class HouseService {	
 	private final HouseRepository houseRepository;    
     
     public HouseService(HouseRepository houseRepository) {
@@ -88,5 +88,9 @@ public class HouseService {
         } catch (IOException e) {
             e.printStackTrace();
         }          
-    } 
+    }
+    
+    public House findHouseById(Integer houseId) {
+        return houseRepository.findHouseById(houseId);
+    }
 }
