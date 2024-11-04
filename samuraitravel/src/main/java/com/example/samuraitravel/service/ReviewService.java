@@ -1,8 +1,8 @@
 package com.example.samuraitravel.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.samuraitravel.entity.House;
@@ -14,8 +14,9 @@ import com.example.samuraitravel.repository.ReviewRepository;
 public class ReviewService {
 	@Autowired
 	private final ReviewRepository reviewRepository;
+	
     
-    public ReviewService(ReviewRepository reviewRepository) {
+    public ReviewService(ReviewRepository reviewRepository, HouseService houseService) {
         this.reviewRepository = reviewRepository; 
     } 
     
@@ -23,8 +24,8 @@ public class ReviewService {
     	return reviewRepository.findReviewById(id);
     }
     
-    public Page<Review> findReviewsByHouseOrderByCreatedAtDesc(Integer houseId, Pageable pageable) {
-    	return reviewRepository.findReviewsByHouseOrderByCreatedAtDesc(houseId, pageable);
+    public List<Review> findAllReviewsByHouse(House house) {
+    	return reviewRepository.findByHouseOrderByCreatedAtDesc(house);
     }
     
     public long countReviews() {

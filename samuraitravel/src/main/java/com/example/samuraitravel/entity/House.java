@@ -1,13 +1,18 @@
 package com.example.samuraitravel.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -49,4 +54,16 @@ public class House {
      @Column(name = "updated_at", insertable = false, updatable = false)
      private Timestamp updatedAt;
 
+  // リレーションシップの定義
+     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+     private List<Review> reviews;
+
+     // 平均評価を計算して取得するメソッド
+     @Transient
+     public Double getAverageScore() {
+         return reviews.stream()
+                       .mapToInt(Review::getRating)
+                       .average()
+                       .orElse(0.0);
+     }
 }
